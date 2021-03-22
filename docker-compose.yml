@@ -34,7 +34,7 @@ services:
       - laratest
 
   db:
-    image: postgres:10
+    image: postgres:latest
     container_name: laratest-db
     restart: always
     ports:
