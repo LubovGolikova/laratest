@@ -50,6 +50,16 @@ services:
       - dbdata:/var/lib/postgresql/data
     networks:
       - laratest
+  npm:
+    image: node:14.7
+    container_name: npm
+    working_dir: /var/www
+    entrypoint: ['npm']
+    command: install
+    volumes:
+      - ./newlara:/var/www
+    networks:
+      - laratest
 
   pgadmin:
     image: dockage/phppgadmin:latest

@@ -25,6 +25,7 @@ php composer-setup.php && \
 php -r "unlink('composer-setup.php');"
 
 
+
 # Add user for  application
 RUN groupadd -g 1000 www
 RUN useradd -u 1000 -ms /bin/bash -g www www
