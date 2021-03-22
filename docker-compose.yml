@@ -14,7 +14,7 @@ services:
       SERVICE_TAGS: dev
     working_dir: /var/www
     volumes:
-      - ./:/var/www
+      - ./newlara:/var/www
       - ./docker-compose/php/php.ini:/usr/local/etc/php/conf.d/local.ini
     networks:
       - laratest
@@ -32,35 +32,37 @@ services:
       - ./docker-compose/nginx/:/etc/nginx/conf.d/
     networks:
       - laratest
-    depends_on:
-      - db
 
   db:
     image: postgres:latest
     container_name: laratest-db
     restart: always
+    ports:
+      - 5436:5432
     environment:
       - POSTGRES_DB=${DB_DATABASE}
       - POSTGRES_USER=${DB_USER}
       - POSTGRES_PASSWORD=${DB_PASSWORD}
       - POSTGRES_ROOT_PASSWORD=${DB_PASSWORD}
     volumes:
-      - ./docker-compose/postgres/:/docker-entrypoint-initdb.d/
+      - ./docker-compose/postgres:/docker-entrypoint-initdb.d/
     networks:
       - laratest
 
   phppgadmin:
     image: dockage/phppgadmin:latest
     container_name: laratest-phppgadmin
-    ports:
-      - 5432:5432
-    restart: always
     environment:
       - PHP_PG_ADMIN_SERVER_HOST=db
       - PHP_PG_ADMIN_SERVER_PORT=5432
       - PHP_PG_ADMIN_SERVER_DEFAULT_DB=postgres
+    restart: always
+    ports:
+      - 443:443
     networks:
       - laratest
+    links:
+      - db
 
 #Docker Networks
 networks:
