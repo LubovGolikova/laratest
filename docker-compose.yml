@@ -1,6 +1,5 @@
 version: "3.7"
 services:
-  #PHP Service
   app:
     build:
       context: .
@@ -19,7 +18,6 @@ services:
     networks:
       - laratest
 
-  #Nginx Service
   webserver:
     image: nginx:alpine
     container_name: laratest-webserver
@@ -50,11 +48,12 @@ services:
       - dbdata:/var/lib/postgresql/data
     networks:
       - laratest
+
   npm:
     image: node:14.7
     container_name: npm
     working_dir: /var/www
-    entrypoint: ['npm']
+#    entrypoint: ['npm']
     command: install
     volumes:
       - ./newlara:/var/www
@@ -76,12 +75,10 @@ services:
     links:
       - db
 
-#Docker Networks
 networks:
   laratest:
     driver: bridge
 
-#Volumes
 volumes:
   dbdata:
     driver: local
