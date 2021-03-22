@@ -1,0 +1,73 @@
+version: "3.7"
+services:
+  #PHP Service
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: digitalocean.com/php
+    container_name: laratest-app
+    restart: unless-stopped
+    tty: true
+    environment:
+      SERVICE_NAME: app
+      SERVICE_TAGS: dev
+    working_dir: /var/www
+    volumes:
+      - ./:/var/www
+      - ./docker-compose/php/php.ini:/usr/local/etc/php/conf.d/local.ini
+    networks:
+      - laratest
+
+  #Nginx Service
+  webserver:
+    image: nginx:alpine
+    container_name: laratest-webserver
+    restart: unless-stopped
+    tty: true
+    ports:
+      - "8080:80"
+    volumes:
+      - ./newlara:/var/www
+      - ./docker-compose/nginx/:/etc/nginx/conf.d/
+    networks:
+      - laratest
+    depends_on:
+      - db
+
+  db:
+    image: postgres:latest
+    container_name: laratest-db
+    restart: always
+    environment:
+      - POSTGRES_DB=${DB_DATABASE}
+      - POSTGRES_USER=${DB_USER}
+      - POSTGRES_PASSWORD=${DB_PASSWORD}
+      - POSTGRES_ROOT_PASSWORD=${DB_PASSWORD}
+    volumes:
+      - ./docker-compose/postgres/:/docker-entrypoint-initdb.d/
+    networks:
+      - laratest
+
+  phppgadmin:
+    image: dockage/phppgadmin:latest
+    container_name: laratest-phppgadmin
+    ports:
+      - 5432:5432
+    restart: always
+    environment:
+      - PHP_PG_ADMIN_SERVER_HOST=db
+      - PHP_PG_ADMIN_SERVER_PORT=5432
+      - PHP_PG_ADMIN_SERVER_DEFAULT_DB=postgres
+    networks:
+      - laratest
+
+#Docker Networks
+networks:
+  laratest:
+    driver: bridge
+
+#Volumes
+volumes:
+  dbdata:
+    driver: local
