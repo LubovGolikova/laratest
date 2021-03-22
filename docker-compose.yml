@@ -14,7 +14,7 @@ services:
       SERVICE_TAGS: dev
     working_dir: /var/www
     volumes:
-      - ./newlara:/var/www
+      - ./apilara:/var/www
       - ./docker-compose/php/php.ini:/usr/local/etc/php/conf.d/local.ini
     networks:
       - laratest
@@ -28,7 +28,7 @@ services:
     ports:
       - "8080:80"
     volumes:
-      - ./newlara:/var/www
+      - ./apilara:/var/www
       - ./docker-compose/nginx/:/etc/nginx/conf.d/
     networks:
       - laratest
@@ -58,7 +58,7 @@ services:
     working_dir: /var/www
     command: install
     volumes:
-      - ./newlara:/var/www
+      - ./apilara:/var/www
     networks:
       - laratest
 
