@@ -34,22 +34,24 @@ services:
       - laratest
 
   db:
-    image: postgres:latest
+    image: postgres:10
     container_name: laratest-db
     restart: always
     ports:
-      - 5436:5432
+      - 5432:5432
     environment:
       - POSTGRES_DB=${DB_DATABASE}
       - POSTGRES_USER=${DB_USER}
       - POSTGRES_PASSWORD=${DB_PASSWORD}
-      - POSTGRES_ROOT_PASSWORD=${DB_PASSWORD}
+      - POSTGRES_ROOT_PASSWORD=${DB_ROOT_PASSWORD}
+      - POSTGRES_INITDB_ARGS="--encoding=UTF8"
     volumes:
       - ./docker-compose/postgres:/docker-entrypoint-initdb.d/
+      - dbdata:/var/lib/postgresql/data
     networks:
       - laratest
 
-  phppgadmin:
+  pgadmin:
     image: dockage/phppgadmin:latest
     container_name: laratest-phppgadmin
     environment:
@@ -58,7 +60,7 @@ services:
       - PHP_PG_ADMIN_SERVER_DEFAULT_DB=postgres
     restart: always
     ports:
-      - 443:443
+      - 5555:80
     networks:
       - laratest
     links:
