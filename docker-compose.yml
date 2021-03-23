@@ -1,86 +1,103 @@
 version: "3.7"
+
 services:
-  #PHP Service
   app:
     build:
       context: .
       dockerfile: Dockerfile
-    image: digitalocean.com/php
-    container_name: laratest-app
+    container_name: ${NETWORK_NAME}-app
     restart: unless-stopped
     tty: true
+    working_dir: ${APP_PATH_CONTAINER}
     environment:
       SERVICE_NAME: app
       SERVICE_TAGS: dev
-    working_dir: /var/www
+    ports:
+      - ${PHP_PORT_HOST}:${PHP_PORT_CONTAINER}
     volumes:
-      - ./apilara:/var/www
-      - ./docker-compose/php/php.ini:/usr/local/etc/php/conf.d/local.ini
+      - ${APP_PATH_HOST}:${APP_PATH_CONTAINER}
+      - ${PHP_PATH_INI}:${PHP_PATH_INI_CONTAINER}
     networks:
       - laratest
 
-  #Nginx Service
   webserver:
     image: nginx:alpine
-    container_name: laratest-webserver
+    container_name: ${NETWORK_NAME}-nginx
     restart: unless-stopped
     tty: true
     ports:
-      - "8090:80"
+      - ${NGINX_PORT_HOST}:${NGINX_PORT_CONTAINER}
     volumes:
-      - ./apilara:/var/www
-      - ./docker-compose/nginx/:/etc/nginx/conf.d/
+      - ${APP_PATH_HOST}:${APP_PATH_CONTAINER}
+      - ${NGINX_CONFIG_PATH_HOST}:${NGINX_CONFIG_PATH_CONTAINER}
     networks:
       - laratest
     depends_on:
+      - app
       - db
 
   db:
     image: postgres:latest
-    container_name: laratest-db
+    container_name: ${NETWORK_NAME}-db
     restart: always
+    tty: true
     ports:
-      - 5432:5432
+      - ${DB_PORT_HOST}:${DB_PORT_CONTAINER}
     environment:
       - POSTGRES_DB=${DB_DATABASE}
       - POSTGRES_USER=${DB_USER}
       - POSTGRES_PASSWORD=${DB_PASSWORD}
       - POSTGRES_ROOT_PASSWORD=${DB_ROOT_PASSWORD}
     volumes:
-      - ./docker-compose/postgres/:/docker-entrypoint-initdb.d/
-      - dbdata:/var/lib/postgresql/data
+      - ${DB_PATH_ENTRYPOINT}:${DB_PATH_ENTRYPOINT_CONTAINER}
+      - ${DB_PATH_HOST}:${DB_PATH_HOST_CONTAINER}
     networks:
       - laratest
 
   npm:
     image: node:14.7
-    container_name: npm
-    working_dir: /var/www
+    container_name: ${NETWORK_NAME}-npm
+    working_dir: ${APP_PATH_CONTAINER}
     command: install
     volumes:
-      - ./apilara:/var/www
+      - ${APP_PATH_HOST}:${APP_PATH_CONTAINER}
     networks:
       - laratest
 
-  pgadmin:
-    image: dockage/phppgadmin:latest
-    container_name: laratest-phppgadmin
-    ports:
-      - 5555:80
+  composer:
+    image: composer:2.0
+    container_name: ${NETWORK_NAME}-composer
+    working_dir: ${APP_PATH_CONTAINER}
+    command: require laravel/ui
+    depends_on:
+      - app
+    volumes:
+      - ${APP_PATH_HOST}:${APP_PATH_CONTAINER}
+    networks:
+      - laratest
+
+  artisan:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: ${NETWORK_NAME}-artisan
+    volumes:
+      - ${APP_PATH_HOST}:${APP_PATH_CONTAINER}
+    depends_on:
+      - db
+    working_dir: ${APP_PATH_CONTAINER}
+    networks:
+      - laratest
+
+  adminer:
+    image: adminer:4.7.7-standalone
     restart: always
-    environment:
-      - PHP_PG_ADMIN_SERVER_HOST=db
-      - PHP_PG_ADMIN_SERVER_PORT=5432
-      - PHP_PG_ADMIN_SERVER_DEFAULT_DB=postgres
+    ports:
+      - ${ADMINER_PORT_HOST}:${ADMINER_PORT_CONTAINER}
+    container_name: ${NETWORK_NAME}-adminer
     networks:
       - laratest
 
-#Docker Networks
 networks:
   laratest:
     driver: bridge
-
-#Volume
-volumes:
-  dbdata:
-    driver: local
