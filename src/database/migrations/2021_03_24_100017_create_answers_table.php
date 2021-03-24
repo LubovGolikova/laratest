@@ -20,8 +20,10 @@ class CreateAnswersTable extends Migration
             $table->date('created_at')->nullable();
             $table->date('updated_at')->nullable();
             $table->unsignedBigInteger('question_id');
+            $table->unsignedBigInteger('user_id');
             $table->timestamps();
 
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->foreign('question_id')->references('id')->on('questions')->onDelete('cascade');
         });
     }

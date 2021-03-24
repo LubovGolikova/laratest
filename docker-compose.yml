@@ -40,7 +40,6 @@ services:
     image: postgres:latest
     container_name: ${NETWORK_NAME}-db
     restart: always
-    tty: true
     ports:
       - ${DB_PORT_HOST}:${DB_PORT_CONTAINER}
     environment:
@@ -49,7 +48,6 @@ services:
       - POSTGRES_PASSWORD=${DB_PASSWORD}
       - POSTGRES_ROOT_PASSWORD=${DB_ROOT_PASSWORD}
     volumes:
-      - ${DB_PATH_ENTRYPOINT}:${DB_PATH_ENTRYPOINT_CONTAINER}
       - ${DB_PATH_HOST}:${DB_PATH_HOST_CONTAINER}
     networks:
       - laratest
@@ -101,3 +99,6 @@ services:
 networks:
   laratest:
     driver: bridge
+
+volumes:
+  postgres_data:
