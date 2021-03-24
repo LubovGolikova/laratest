@@ -1,0 +1,9 @@
+[2021-03-23 11:19:35] local.ERROR: Command "preset" is not defined. {"exception":"[object] (Symfony\\Component\\Console\\Exception\\CommandNotFoundException(code: 0): Command \"preset\" is not defined. at /Users/lubovgolikova/PhpstormProjects/laratest/apilara/vendor/symfony/console/Application.php:675)
+[stacktrace]
+#0 /Users/lubovgolikova/PhpstormProjects/laratest/apilara/vendor/symfony/console/Application.php(254): Symfony\\Component\\Console\\Application->find('preset')
+#1 /Users/lubovgolikova/PhpstormProjects/laratest/apilara/vendor/symfony/console/Application.php(166): Symfony\\Component\\Console\\Application->doRun(Object(Symfony\\Component\\Console\\Input\\ArgvInput), Object(Symfony\\Component\\Console\\Output\\ConsoleOutput))
+#2 /Users/lubovgolikova/PhpstormProjects/laratest/apilara/vendor/laravel/framework/src/Illuminate/Console/Application.php(92): Symfony\\Component\\Console\\Application->run(Object(Symfony\\Component\\Console\\Input\\ArgvInput), Object(Symfony\\Component\\Console\\Output\\ConsoleOutput))
+#3 /Users/lubovgolikova/PhpstormProjects/laratest/apilara/vendor/laravel/framework/src/Illuminate/Foundation/Console/Kernel.php(129): Illuminate\\Console\\Application->run(Object(Symfony\\Component\\Console\\Input\\ArgvInput), Object(Symfony\\Component\\Console\\Output\\ConsoleOutput))
+#4 /Users/lubovgolikova/PhpstormProjects/laratest/apilara/artisan(37): Illuminate\\Foundation\\Console\\Kernel->handle(Object(Symfony\\Component\\Console\\Input\\ArgvInput), Object(Symfony\\Component\\Console\\Output\\ConsoleOutput))
+#5 {main}
+"} 
