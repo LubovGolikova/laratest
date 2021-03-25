@@ -944,3 +944,34 @@ Did you mean one of these?
 #41 /var/www/public/index.php(52): Illuminate\\Foundation\\Http\\Kernel->handle(Object(Illuminate\\Http\\Request))
 #42 {main}
 "} 
+[2021-03-25 14:31:08] local.ERROR: There are no commands defined in the "jwt" namespace. {"exception":"[object] (Symfony\\Component\\Console\\Exception\\NamespaceNotFoundException(code: 0): There are no commands defined in the \"jwt\" namespace. at /Users/lubovgolikova/PhpstormProjects/laratest/src/vendor/symfony/console/Application.php:605)
+[stacktrace]
+#0 /Users/lubovgolikova/PhpstormProjects/laratest/src/vendor/symfony/console/Application.php(656): Symfony\\Component\\Console\\Application->findNamespace('jwt')
+#1 /Users/lubovgolikova/PhpstormProjects/laratest/src/vendor/symfony/console/Application.php(254): Symfony\\Component\\Console\\Application->find('jwt:generate')
+#2 /Users/lubovgolikova/PhpstormProjects/laratest/src/vendor/symfony/console/Application.php(166): Symfony\\Component\\Console\\Application->doRun(Object(Symfony\\Component\\Console\\Input\\ArgvInput), Object(Symfony\\Component\\Console\\Output\\ConsoleOutput))
+#3 /Users/lubovgolikova/PhpstormProjects/laratest/src/vendor/laravel/framework/src/Illuminate/Console/Application.php(92): Symfony\\Component\\Console\\Application->run(Object(Symfony\\Component\\Console\\Input\\ArgvInput), Object(Symfony\\Component\\Console\\Output\\ConsoleOutput))
+#4 /Users/lubovgolikova/PhpstormProjects/laratest/src/vendor/laravel/framework/src/Illuminate/Foundation/Console/Kernel.php(129): Illuminate\\Console\\Application->run(Object(Symfony\\Component\\Console\\Input\\ArgvInput), Object(Symfony\\Component\\Console\\Output\\ConsoleOutput))
+#5 /Users/lubovgolikova/PhpstormProjects/laratest/src/artisan(37): Illuminate\\Foundation\\Console\\Kernel->handle(Object(Symfony\\Component\\Console\\Input\\ArgvInput), Object(Symfony\\Component\\Console\\Output\\ConsoleOutput))
+#6 {main}
+"} 
+[2021-03-25 14:41:57] local.ERROR: Command "jwt:generate" is not defined.
+
+Did you mean one of these?
+    event:generate
+    jwt:secret
+    key:generate
+    l5-swagger:generate {"exception":"[object] (Symfony\\Component\\Console\\Exception\\CommandNotFoundException(code: 0): Command \"jwt:generate\" is not defined.
+
+Did you mean one of these?
+    event:generate
+    jwt:secret
+    key:generate
+    l5-swagger:generate at /Users/lubovgolikova/PhpstormProjects/laratest/src/vendor/symfony/console/Application.php:675)
+[stacktrace]
+#0 /Users/lubovgolikova/PhpstormProjects/laratest/src/vendor/symfony/console/Application.php(254): Symfony\\Component\\Console\\Application->find('jwt:generate')
+#1 /Users/lubovgolikova/PhpstormProjects/laratest/src/vendor/symfony/console/Application.php(166): Symfony\\Component\\Console\\Application->doRun(Object(Symfony\\Component\\Console\\Input\\ArgvInput), Object(Symfony\\Component\\Console\\Output\\ConsoleOutput))
+#2 /Users/lubovgolikova/PhpstormProjects/laratest/src/vendor/laravel/framework/src/Illuminate/Console/Application.php(92): Symfony\\Component\\Console\\Application->run(Object(Symfony\\Component\\Console\\Input\\ArgvInput), Object(Symfony\\Component\\Console\\Output\\ConsoleOutput))
+#3 /Users/lubovgolikova/PhpstormProjects/laratest/src/vendor/laravel/framework/src/Illuminate/Foundation/Console/Kernel.php(129): Illuminate\\Console\\Application->run(Object(Symfony\\Component\\Console\\Input\\ArgvInput), Object(Symfony\\Component\\Console\\Output\\ConsoleOutput))
+#4 /Users/lubovgolikova/PhpstormProjects/laratest/src/artisan(37): Illuminate\\Foundation\\Console\\Kernel->handle(Object(Symfony\\Component\\Console\\Input\\ArgvInput), Object(Symfony\\Component\\Console\\Output\\ConsoleOutput))
+#5 {main}
+"} 

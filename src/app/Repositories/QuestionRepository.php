@@ -76,7 +76,7 @@ class QuestionRepository
 //        $question = $this->question->find($id);
 //
 //        $question->title = $data['title'];
-//        $question->description = $data['description'];
+//        $question->body = $data['body'];
 //
 //        $question->update();
 //
