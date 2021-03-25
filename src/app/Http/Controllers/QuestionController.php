@@ -2,11 +2,30 @@
 
 namespace App\Http\Controllers;
 
+use App\Services\QuestionService;
 use App\Models\Question;
+use Exception;
 use Illuminate\Http\Request;
-
+//use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Response;
 class QuestionController extends Controller
 {
+    /**
+     * @var questionService
+     */
+    protected $questionService;
+
+    /**
+     * QuestionController Constructor
+     *
+     * @param QuestionService $questionService
+     *
+     */
+    public function __construct(QuestionService $questionService)
+    {
+        $this->questionService = $questionService;
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -14,7 +33,18 @@ class QuestionController extends Controller
      */
     public function index()
     {
-        //
+        $result = ['status' => 200];
+
+        try {
+            $result['data'] = $this->questionService->getAll();
+        } catch (Exception $e) {
+            $result = [
+                'status' => 500,
+                'error' => $e->getMessage()
+            ];
+        }
+
+        return response()->json($result, $result['status']);
     }
 
     /**

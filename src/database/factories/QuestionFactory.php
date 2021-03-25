@@ -24,11 +24,10 @@ class QuestionFactory extends Factory
     public function definition()
     {
         return [
-            'user_id' => User::factory(),
+//            'user_id' =>  User::all()->random()->id,
+            'user_id' => User::factory()->create()->id,
             'title' => $this->faker->sentence,
-            'body' => $this->faker->paragraph,
-            'votes' => Str::random(10),
-
+            'body' => $this->faker->paragraph
         ];
     }
 }

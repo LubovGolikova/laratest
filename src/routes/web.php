@@ -22,3 +22,4 @@ Auth::routes();
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
 Route::get('/questions', [App\Http\Controllers\QuestionController::class, 'index']);
+//Route::resource('question','QuestionController');
