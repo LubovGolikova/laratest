@@ -24,12 +24,14 @@ class QuestionRepository
     /**
      * Get all questions.
      *
-     * @return Question $question
+     * @return Question|Question[]|\Illuminate\Database\Eloquent\Collection
      */
     public function getAll()
     {
-        return $this->question
-            ->get();
+        dump($this->question->all());
+        return $this->question->all();
+//        return $this->question
+//            ->get();
     }
 
 //    /**
@@ -95,4 +97,5 @@ class QuestionRepository
 //
 //        return $question;
 //    }
+
 }

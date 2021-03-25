@@ -8,6 +8,7 @@ use Exception;
 use Illuminate\Http\Request;
 //use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Response;
+use App\Http\Requests\StoreQuestionRequest;
 class QuestionController extends Controller
 {
     /**
@@ -63,9 +64,10 @@ class QuestionController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(StoreQuestionRequest $request)
     {
-        //
+        $validated = $request->validated();
+
     }
 
     /**

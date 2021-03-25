@@ -60,7 +60,9 @@ class QuestionService
      */
     public function getAll()
     {
+
         return $this->questionRepository->getAll();
+
     }
 
 //    /**
@@ -85,7 +87,7 @@ class QuestionService
 //    {
 //        $validator = Validator::make($data, [
 //            'title' => 'bail|min:2',
-//            'description' => 'bail|max:255'
+//            'body' => 'bail|max:255'
 //        ]);
 //
 //        if ($validator->fails()) {
@@ -121,7 +123,7 @@ class QuestionService
 //    {
 //        $validator = Validator::make($data, [
 //            'title' => 'required',
-//            'description' => 'required'
+//            'body' => 'required'
 //        ]);
 //
 //        if ($validator->fails()) {
