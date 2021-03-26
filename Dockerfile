@@ -3,6 +3,7 @@ FROM php:8.0-fpm
 WORKDIR /var/www
 
 RUN apt-get update && apt-get install -y \
+        libpq-dev \
         libpng-dev \
         zlib1g-dev \
         libxml2-dev \
@@ -15,6 +16,7 @@ RUN apt-get update && apt-get install -y \
     && docker-php-ext-install -j$(nproc) gd \
     && docker-php-ext-install pdo_mysql \
     && docker-php-ext-install mysqli \
+    && docker-php-ext-install pdo pdo_pgsql pgsql \
     && docker-php-ext-install zip \
     && docker-php-source delete
 

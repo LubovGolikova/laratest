@@ -28,8 +28,10 @@ class QuestionRepository
      */
     public function getAll()
     {
-        dump($this->question->all());
-        return $this->question->all();
+//        dump($this->question->all());
+        dump(Question::all());
+//        return $this->question->all();
+        return Question::all();
 //        return $this->question
 //            ->get();
     }

@@ -1,15 +1,14 @@
 <?php
 
-namespace App\Http\Controllers\Auth;
+namespace App\Http\Controllers;
 
-use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
-
-use Illuminate\Support\Facades\Auth;
 use App\Models\User;
-use App\Http\Requests\UserRequest;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Http\Request;
+use Validator;
 class AuthController extends Controller
 {
+
     /**
      * Create a new AuthController instance.
      *
@@ -24,16 +23,18 @@ class AuthController extends Controller
      *
      * @return \Illuminate\Http\JsonResponse
      */
-    public function login(UserRequest $request){
+    public function login(Request $request){
+        $validator = Validator::make($request->all(), [
+            'email' => 'required|email',
+            'password' => 'required|string|min:6',
+        ]);
 
-        $validatedData = $request->validated();
-
-        if ($validatedData ) {
-            return response()->json($validatedData , 422);
+        if ($validator->fails()) {
+            return response()->json($validator->errors(), 422);
         }
 
-        if (! $token = auth()->attempt($validatedData )) {
-            return response()->json(['error' => 'Unauthorized'], 401);
+        if (! $token = auth()->attempt($validator->validated())) {
+            return response()->json(['error' => 'Either email or password is wrong.'], 401);
         }
 
         return $this->createNewToken($token);
@@ -44,11 +45,19 @@ class AuthController extends Controller
      *
      * @return \Illuminate\Http\JsonResponse
      */
-    public function register(UserRequest $request) {
+    public function register(Request $request) {
+        $validator = Validator::make($request->all(), [
+            'name' => 'required|string|between:2,100',
+            'email' => 'required|string|email|max:100|unique:users',
+            'password' => 'required|string|confirmed|min:6',
+        ]);
 
-        $validatedData = $request->validated();
+        if($validator->fails()){
+            return response()->json($validator->errors(), 400);
+        }
+
         $user = User::create(array_merge(
-            $validatedData,
+            $validator->validated(),
             ['password' => bcrypt($request->password)]
         ));
 
